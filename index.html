@@ -6,7 +6,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     body { font-family: "Segoe UI", Roboto, "Noto Sans KR", sans-serif; padding: 20px; background:#fff; }
-    .chart-container { display:flex; }
+    .chart-container { 
+        display:flex; 
+        justify-content: center;
+        }
     svg { overflow: visible; }
     
     .tooltip {
@@ -103,7 +106,7 @@
           startDate: new Date(2000,0,5),
           tooltip: {
             title: '개발자 커리어의 시작',
-            content: '체계적인 학습과 프로젝트 경험을 바탕으로 첫 개발자 포지션에 성공적으로 입사했습니다. 이론에서 실무로, 새로운 도전의 시작이었어요. 전자정부프레임워크 기반 SI/SM 업무 수행(만 2년 3개월)하였고 좀 더 모던한 웹 기술을 습득하기 위해 퇴사를 결정하게 되었습니다.'
+            content: '이론에서 실무로, 새로운 도전의 시작이었어요. 전자정부프레임워크 기반 SI/SM 업무 수행(만 2년 3개월)하였고 좀 더 모던한 웹 기술을 습득하기 위해 퇴사를 결정하게 되었습니다.'
           }
         },
         { 
@@ -124,9 +127,9 @@
         }
       ];
 
-      const width = 576, height = 263;
-      const margin = { top: 120, right: 20, bottom: 20, left: 20 };
-      const effectiveWidth = width * 0.4;
+      const width = 300, height = 205;
+      const margin = { top: 120, right: 20, bottom: 0, left: 20 };
+      const effectiveWidth = width * 0.6;
       const timelineY = (height - margin.top - margin.bottom) / 2 + margin.top;
 
       const svgRoot = d3.select("#timeline-chart")
