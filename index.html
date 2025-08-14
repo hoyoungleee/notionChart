@@ -127,14 +127,15 @@
         }
       ];
 
-      const width = 300, height = 205;
-      const margin = { top: 120, right: 20, bottom: 0, left: 20 };
-      const effectiveWidth = width * 0.6;
+      const width = 536;
+      const height = 123;
+      const margin = { top: 70, right: 20, bottom: 0, left: 20 };
+      const effectiveWidth = width * 0.9;
       const timelineY = (height - margin.top - margin.bottom) / 2 + margin.top;
 
       const svgRoot = d3.select("#timeline-chart")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
+        .attr("width", width + margin.left + margin.right) // 536 + 20 + 20 = 576
+        .attr("height", height + margin.top + margin.bottom); // 123 + 70 + 0 = 193
 
       const defs = svgRoot.append("defs");
       const grad = defs.append("linearGradient")
