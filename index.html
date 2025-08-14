@@ -1,45 +1,34 @@
-<html>
-  <head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['timeline']});
-      google.charts.setOnLoadCallback(drawChart);
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>D3 Timeline Chart</title>
+    <style>
+        .chart-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .timeline-rect {
+            stroke: #fff;
+            stroke-width: 2px;
+            cursor: pointer;
+        }
+        .timeline-text {
+            font-size: 10px;
+            font-family: sans-serif;
+            fill: black;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <svg id="timeline-chart" width="1000" height="200"></svg>
+    </div>
 
-      function drawChart() {
-        var container = document.getElementById('timeline');
-        var chart = new google.visualization.Timeline(container);
-        var dataTable = new google.visualization.DataTable();
-
-        dataTable.addColumn({ type: 'string', id: '시기' });
-        dataTable.addColumn({ type: 'string', id: '활동' });
-        dataTable.addColumn({ type: 'date', id: '시작' });
-        dataTable.addColumn({ type: 'date', id: '종료' });
-        dataTable.addColumn({ type: 'string', role: 'tooltip', p: { html: true } });
-
-        // 가짜 날짜로만 배치 (2000년도 기준)
-        dataTable.addRows([
-        ['개발 여정', '대학교 교양수업으로 Java 배우기', new Date(2000,0,1), new Date(2000,0,2), '<div style="padding:8px;"><b>대학교</b><br>메모장으로 자바 코드 작성 후 javac로 컴파일</div>'],
-        ['개발 여정', '2017년 춘계학술발표대회 학부생 논문경진대회 – 금상', new Date(2000,0,2), new Date(2000,0,3), '<div style="padding:8px;"><b>대학교</b><br>아두이노와 라즈베리파이 프로젝트</div>'],
-        ['개발 여정', 'Unity를 활용한 VR/AR 교육 (160시간)', new Date(2000,0,3), new Date(2000,0,4), '<div style="padding:8px;"><b>사업 중</b><br>VR 앱 개발</div>'],
-        ['개발 여정', 'JAVA 웹개발 스택 교육과정 수료', new Date(2000,0,4), new Date(2000,0,5), '<div style="padding:8px;"><b>6개월 과정</b><br>최우수 프로젝트 선정</div>'],
-        ['개발 여정', '운 좋게 바로 JAVA 개발자로 취뽀 성공', new Date(2000,0,5), new Date(2000,0,6), '<div style="padding:8px;"><b>정규직 사원</b><br>SI/SM 업무 수행</div>'],
-        ['개발 여정', '웹 개발의 처음과 끝을 완성해보다.', new Date(2000,0,6), new Date(2000,0,7), '<div style="padding:8px;"><b>또 다시 교육</b><br>React, MSA, Docker, AWS 경험</div>'],
-        ['개발 여정', '나라는 존재를 개발 세상에 알리는 중!', new Date(2000,0,7), new Date(2000,0,8), '<div style="padding:8px;"><b>구직 중</b><br>많은 연락 부탁드립니다.</div>'],
-        ]);
-
-        var options = {
-          tooltip: { isHtml: true },
-          groupByRowLabel: true, // 한 줄로 표시
-          timeline: { showRowLabels: false },
-          hAxis: { format: '' }, // 날짜 숨김
-          height: 150
-        };
-
-        chart.draw(dataTable, options);
-      }
-    </script>
-  </head>
-  <body>
-    <div id="timeline" style="height: 150px;"></div>
-  </body>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="app.js"></script>
+</body>
 </html>
