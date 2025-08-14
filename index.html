@@ -13,25 +13,27 @@
     svg { overflow: visible; }
     
     .tooltip {
-      position: absolute;
-      padding: 12px 16px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 16px 24px;
       background: rgba(0, 0, 0, 0.9);
       color: white;
-      border-radius: 8px;
-      font-size: 14px;
-      line-height: 1.4;
-      max-width: 300px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 400px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
       pointer-events: none;
       opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
+      transition: all 0.4s ease-in-out;
       z-index: 1000;
     }
     
     .tooltip.show {
       opacity: 1;
-      transform: translateY(-5px);
+      transform: translate(-50%, -50%) scale(1);
     }
     
     .tooltip::after {
@@ -51,7 +53,7 @@
     }
     
     .tooltip-content {
-      font-size: 13px;
+      font-size: 15px;
       color: #e0e0e0;
     }
   </style>
@@ -134,8 +136,8 @@
       const timelineY = (height - margin.top - margin.bottom) / 2 + margin.top;
 
       const svgRoot = d3.select("#timeline-chart")
-        .attr("width", width + margin.left + margin.right) // 536 + 20 + 20 = 576
-        .attr("height", height + margin.top + margin.bottom); // 123 + 70 + 0 = 193
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
 
       const defs = svgRoot.append("defs");
       const grad = defs.append("linearGradient")
@@ -159,10 +161,10 @@
       const mainLine = svg.append("line")
         .attr("x1", 0).attr("y1", timelineY - margin.top)
         .attr("x2", effectiveWidth).attr("y2", timelineY - margin.top)
-        .attr("stroke-width", 4) // 8에서 4로 줄임
+        .attr("stroke-width", 4)
         .attr("stroke-linecap", "round")
         .style("stroke", "url(#timeline-gradient)")
-        .style("opacity", 0.8); // 약간 투명하게
+        .style("opacity", 0.8);
 
       const colors = ["#ffc107", "#007bff", "#28a745", "#dc3545", "#6f42c1", "#e83e8c", "#fd7e14"];
 
@@ -173,10 +175,10 @@
           .attr("y1", timelineY - margin.top)
           .attr("x2", xScale(data[i].startDate))
           .attr("y2", timelineY - margin.top)
-          .attr("stroke-width", 3) // 2에서 3으로 증가
+          .attr("stroke-width", 3)
           .attr("stroke-linecap", "round")
-          .style("stroke", "#333") // #888에서 #333으로 더 진하게
-          .style("opacity", 1); // 0.9에서 1로 불투명하게
+          .style("stroke", "#333")
+          .style("opacity", 1);
       }
 
       const groups = svg.selectAll(".item")
@@ -189,10 +191,10 @@
       groups.append("circle")
         .attr("cx", d => xScale(d.startDate))
         .attr("cy", timelineY - margin.top)
-        .attr("r", 8) // 7에서 8로 증가
+        .attr("r", 8)
         .attr("fill", (d,i) => colors[i % colors.length])
-        .attr("stroke", "#fff") // 흰색 테두리로 변경
-        .attr("stroke-width", 2) // 테두리도 두껍게
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 2)
         .style("cursor", "pointer")
         .on("mouseover", function(event, d) {
           // 호버 시 원 크기 증가 애니메이션
@@ -211,14 +213,7 @@
         })
         .on("mousemove", function(event) {
           // 마우스 위치에 따라 툴팁 위치 조정
-          const tooltip = d3.select("#tooltip");
-          const rect = document.body.getBoundingClientRect();
-          const x = event.pageX;
-          const y = event.pageY;
-          
-          tooltip
-            .style("left", (x - 150) + "px")
-            .style("top", (y - 100) + "px");
+          // 이 부분은 중앙에 고정되도록 수정했기 때문에 더 이상 필요 없습니다.
         })
         .on("mouseout", function() {
           // 호버 종료 시 원 크기 복원
@@ -235,13 +230,13 @@
       const rotationAngle = -45;
       groups.append("text")
         .attr("x", d => xScale(d.startDate))
-        .attr("y", timelineY - margin.top - 15) // 좀 더 위로
+        .attr("y", timelineY - margin.top - 15)
         .text(d => d.label)
         .attr("text-anchor", "start")
         .attr("dominant-baseline", "hanging")
         .style("font-size", "13px")
         .style("fill", (d,i) => colors[i % colors.length])
-        .style("font-weight", "600") // 폰트 두껍게
+        .style("font-weight", "600")
         .attr("transform", function(d) {
           const x = xScale(d.startDate);
           const y = timelineY - margin.top - 15;
