@@ -8,6 +8,49 @@
     body { font-family: "Segoe UI", Roboto, "Noto Sans KR", sans-serif; padding: 20px; background:#fff; }
     .chart-container { display:flex; justify-content:center; }
     svg { overflow: visible; }
+    
+    .tooltip {
+      position: absolute;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      max-width: 300px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .tooltip.show {
+      opacity: 1;
+      transform: translateY(-5px);
+    }
+    
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border: 5px solid transparent;
+      border-top-color: rgba(0, 0, 0, 0.9);
+    }
+    
+    .tooltip-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #ffd700;
+    }
+    
+    .tooltip-content {
+      font-size: 13px;
+      color: #e0e0e0;
+    }
   </style>
 </head>
 <body>
@@ -20,13 +63,62 @@
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const data = [
-        { label: '대학교 교양수업으로 Java 배우기', startDate: new Date(2000,0,1) },
-        { label: '2017년 춘계학술발표대회 학부생 논문경진대회 – 금상', startDate: new Date(2000,0,2) },
-        { label: 'Unity를 활용한 VR/AR 교육 (160시간)', startDate: new Date(2000,0,3) },
-        { label: 'JAVA 웹개발 스택 교육과정 수료', startDate: new Date(2000,0,4) },
-        { label: '운 좋게 바로 JAVA 개발자로 취뽀 성공', startDate: new Date(2000,0,5) },
-        { label: '웹 개발의 처음과 끝을 완성해보다.', startDate: new Date(2000,0,6) },
-        { label: '나라는 존재를 개발 세상에 알리는 중!', startDate: new Date(2000,0,7) }
+        { 
+          label: '대학교 교양수업으로 Java를 맛보다.', 
+          startDate: new Date(2000,0,1),
+          tooltip: {
+            title: 'Java 프로그래밍 첫 걸음',
+            content: '객체지향 프로그래밍의 기초를 배우며 개발자로서의 첫 발을 내딛었습니다. 변수, 조건문, 반복문부터 시작해서 클래스와 객체의 개념까지 익혔어요.'
+          }
+        },
+        { 
+          label: '2017년 춘계학술발표대회 학부생 논문경진대회 – 금상', 
+          startDate: new Date(2000,0,2),
+          tooltip: {
+            title: '개발 프로젝트 관련 첫 번째 결실',
+            content: '아두이노와 라즈베리 파이 기반의 스마트 도어록시스템 구현 프로젝트에 3D 프린팅 팀원으로 협업. 개발자를 동경하는 계기가 되었음.'
+          }
+        },
+        { 
+          label: 'Unity를 활용한 VR/AR 교육 (160시간)', 
+          startDate: new Date(2000,0,3),
+          tooltip: {
+            title: '차세대 기술 몰입 학습',
+            content: '지역 유명명소로 워프시켜 설명해주는 VR앱 완성. 강사님께 후일담으로 '
+          }
+        },
+        { 
+          label: 'JAVA 웹개발 교육과정 수료', 
+          startDate: new Date(2000,0,4),
+          tooltip: {
+            title: '본격적인 개발자로의 전환점',
+            content: 'Spring Framework, JSP, Servlet, Database 연동까지 웹 개발의 전체 스택을 학습했습니다. 실무 중심의 프로젝트로 실전 경험을 쌓았어요. 열심히 활동하여 특모범상 수상 (출석률 100%),봉사상 수상 (학급반장 수행), 반내 최우수 프로젝트 선정됨.'
+          }
+        },
+        { 
+          label: '운 좋게 바로 JAVA 개발자로 취뽀 성공', 
+          startDate: new Date(2000,0,5),
+          tooltip: {
+            title: '개발자 커리어의 시작',
+            content: '체계적인 학습과 프로젝트 경험을 바탕으로 첫 개발자 포지션에 성공적으로 입사했습니다. 이론에서 실무로, 새로운 도전의 시작이었어요. 전자정부프레임워크 기반 SI/SM 업무 수행(만 2년 3개월)하였습니다.'
+          }
+        },
+        { 
+          label: '웹 개발의 처음과 끝을 완성해보다.', 
+          startDate: new Date(2000,0,6),
+          tooltip: {
+            title: 'End-to-End 개발 경험',
+            content: '기획부터 배포까지 웹 서비스의 전체 생명주기를 경험했습니다. 프론트엔드, 백엔드, 데이터베이스, 인프라까지 풀스택 역량을 키웠어요.'
+          }
+        },
+        { 
+          label: '나라는 존재를 개발 세상에 알리는 중!', 
+          startDate: new Date(2000,0,7),
+          tooltip: {
+            title: '개발자로서의 정체성 확립',
+            content: '기술 블로그, 오픈소스 기여, 커뮤니티 활동을 통해 개발자로서의 브랜딩을 시작했습니다. 지속적인 성장과 지식 공유로 영향력을 확대해 나가고 있어요.'
+          }
+        }
       ];
 
       const width = 900, height = 300;
@@ -93,7 +185,45 @@
         .attr("r", 8) // 7에서 8로 증가
         .attr("fill", (d,i) => colors[i % colors.length])
         .attr("stroke", "#fff") // 흰색 테두리로 변경
-        .attr("stroke-width", 2); // 테두리도 두껍게
+        .attr("stroke-width", 2) // 테두리도 두껍게
+        .style("cursor", "pointer")
+        .on("mouseover", function(event, d) {
+          // 호버 시 원 크기 증가 애니메이션
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .attr("r", 12)
+            .attr("stroke-width", 3);
+          
+          // 툴팁 표시
+          const tooltip = d3.select("#tooltip");
+          tooltip.select(".tooltip-title").text(d.tooltip.title);
+          tooltip.select(".tooltip-content").text(d.tooltip.content);
+          
+          tooltip.classed("show", true);
+        })
+        .on("mousemove", function(event) {
+          // 마우스 위치에 따라 툴팁 위치 조정
+          const tooltip = d3.select("#tooltip");
+          const rect = document.body.getBoundingClientRect();
+          const x = event.pageX;
+          const y = event.pageY;
+          
+          tooltip
+            .style("left", (x - 150) + "px")
+            .style("top", (y - 100) + "px");
+        })
+        .on("mouseout", function() {
+          // 호버 종료 시 원 크기 복원
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .attr("r", 8)
+            .attr("stroke-width", 2);
+          
+          // 툴팁 숨김
+          d3.select("#tooltip").classed("show", false);
+        });
 
       const rotationAngle = -45;
       groups.append("text")
