@@ -5,7 +5,7 @@
   <title>Timeline - 연결선 개선</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    body { font-family: "Segoe UI", Roboto, "Noto Sans KR", sans-serif; padding: 20px; background:#fff; }
+    body { font-family: "Segoe UI", Roboto, "Noto Sans KR", sans-serif; background:#fff; }
     .chart-container { 
         display:flex; 
 
@@ -151,7 +151,7 @@
       grad.append("stop").attr("offset","100%").attr("stop-color","#6f42c1");
 
       const svg = svgRoot.append("g")
-        .attr("transform", `translate(${margin.left}, 180)`);
+        .attr("transform", `translate(${margin.left}, 200)`);
 
       const xScale = d3.scaleTime()
         .domain([d3.min(data, d=>d.startDate), d3.max(data, d=>d.startDate)])
