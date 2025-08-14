@@ -20,40 +20,57 @@ document.addEventListener("DOMContentLoaded", function() {
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
     const xScale = d3.scaleTime()
-        .domain([d3.min(data, d => d.startDate), d3.max(data, d => d.endDate)])
+        .domain([d3.min(data, d => d.date), d3.max(data, d => d.date)])
         .range([0, width]);
 
-    const rectHeight = 30;
-    const rectY = height / 2 - rectHeight / 2;
+    const timelineY = height / 2;
 
-    const timeline = svg.selectAll(".timeline-rect")
+    // 타임라인 선 그리기
+    svg.append("line")
+        .attr("x1", 0)
+        .attr("y1", timelineY)
+        .attr("x2", width)
+        .attr("y2", timelineY)
+        .attr("stroke", "green")
+        .attr("stroke-width", 2);
+
+    const timeline = svg.selectAll(".timeline-item")
         .data(data)
         .enter()
-        .append("g");
+        .append("g")
+        .attr("class", "timeline-item");
 
-    timeline.append("rect")
-        .attr("class", "timeline-rect")
-        .attr("x", d => xScale(d.startDate))
-        .attr("y", rectY)
-        .attr("width", d => xScale(d.endDate) - xScale(d.startDate))
-        .attr("height", rectHeight)
-        .attr("fill", "steelblue"); // 기본 색상
-
-    timeline.append("text")
-        .attr("class", "timeline-text")
-        .attr("x", d => xScale(d.startDate) + (xScale(d.endDate) - xScale(d.startDate)) / 2)
-        .attr("y", rectY + rectHeight / 2)
-        .text(d => d.label)
-        .attr("transform", d => {
-            const x = xScale(d.startDate) + (xScale(d.endDate) - xScale(d.startDate)) / 2;
-            const y = rectY + rectHeight / 2;
-            return `rotate(45, ${x}, ${y})`;
+    // 점(원) 그리기
+    timeline.append("circle")
+        .attr("cx", d => xScale(d.date))
+        .attr("cy", timelineY)
+        .attr("r", 5) // 원의 반지름
+        .attr("fill", (d, i) => {
+            const colors = ["#ffc107", "#007bff", "#28a745", "#dc3545", "#6f42c1", "#e83e8c", "#fd7e14", "#20c997", "#6610f2"];
+            return colors[i % colors.length];
         });
 
+    // 텍스트 배치
+    timeline.append("text")
+        .attr("x", d => xScale(d.date))
+        .attr("y", timelineY - 10)
+        .text(d => d.label)
+        .attr("text-anchor", "end")
+        .attr("dominant-baseline", "ideographic")
+        .attr("transform", d => {
+            const x = xScale(d.date);
+            const y = timelineY - 10;
+            return `rotate(-45, ${x}, ${y})`;
+        })
+        .style("font-size", "12px")
+        .style("font-family", "sans-serif")
+        .style("fill", "black");
+
+    // x축(날짜) 추가
     const xAxis = d3.axisBottom(xScale)
         .tickFormat(d3.timeFormat("%Y-%m-%d"));
 
     svg.append("g")
-        .attr("transform", `translate(0, ${height / 2 + 30})`)
+        .attr("transform", `translate(0, ${timelineY + 5})`)
         .call(xAxis);
 });
