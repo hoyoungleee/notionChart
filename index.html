@@ -1,249 +1,223 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <title>Timeline - 연결선 개선</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    body { font-family: "Segoe UI", Roboto, "Noto Sans KR", sans-serif; background:#fff; }
-    .chart-container { 
-        display:flex; 
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이호영 | 경력 인포그래픽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F0F4F8;
+            color: #2D3748;
         }
-    svg { overflow: visible; }
-    
-    .tooltip {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 16px 24px;
-      background: rgba(0, 0, 0, 0.9);
-      color: white;
-      border-radius: 12px;
-      font-size: 16px;
-      line-height: 1.5;
-      max-width: 400px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      pointer-events: none;
-      opacity: 0;
-      transition: all 0.4s ease-in-out;
-      z-index: 1000;
-    }
-    
-    .tooltip.show {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-    
-    .tooltip::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-      border: 5px solid transparent;
-      border-top-color: rgba(0, 0, 0, 0.9);
-    }
-    
-    .tooltip-title {
-      font-weight: bold;
-      margin-bottom: 8px;
-      color: #ffd700;
-    }
-    
-    .tooltip-content {
-      font-size: 15px;
-      color: #e0e0e0;
-    }
-  </style>
+    </style>
 </head>
-<body>
-  <div class="chart-container">
-    <svg id="timeline-chart" width="576" height="263"></svg>
-  </div>
-  <div class="tooltip" id="tooltip">
-    <div class="tooltip-title"></div>
-    <div class="tooltip-content"></div>
-  </div>
+<body class="text-gray-800">
 
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const data = [
-        { 
-          label: '대학교 교양수업으로 Java 배우기', 
-          startDate: new Date(2000,0,1),
-          tooltip: {
-            title: 'Java 프로그래밍 첫 걸음',
-            content: '객체지향 프로그래밍의 기초를 배우며 개발자로서의 첫 발을 내딛었습니다. 변수, 조건문, 반복문부터 시작해서 클래스와 객체의 개념까지 익혔어요.'
-          }
-        },
-        { 
-          label: '2017년 춘계학술발표대회 학부생 논문경진대회 – 금상', 
-          startDate: new Date(2000,0,2),
-          tooltip: {
-            title: '개발 프로젝트 관련 첫 번째 결실',
-            content: '아두이노와 라즈베리 파이 기반의 스마트 도어록시스템 구현 프로젝트에 3D 프린팅 팀원으로 협업. 개발자를 동경하는 계기가 되었어요.'
-          }
-        },
-        { 
-          label: 'Unity를 활용한 VR/AR 교육 (160시간)', 
-          startDate: new Date(2000,0,3),
-          tooltip: {
-            title: '차세대 기술 몰입 학습',
-            content: 'Unity 엔진을 학습 하며 게임엔진의 프로세스를 경험했습니다. 미숙하지만 스스로 개발결과물을 내볼 수 있는 소중한 시간이었습니다.'
-          }
-        },
-        { 
-          label: 'JAVA 웹개발 스택 교육과정 수료', 
-          startDate: new Date(2000,0,4),
-          tooltip: {
-            title: '풀스택 개발자로의 전환점',
-            content: 'Spring Framework, JSP, Servlet, Database 연동까지 웹 개발의 전체 스택을 학습했습니다. 실무 중심의 프로젝트로 실전 경험을 쌓았습니다. 열심히 배우고 팀원들과 협업하여 반내 최우수팀으로 선정되었습니다.'
-          }
-        },
-        { 
-          label: '운 좋게 바로 JAVA 개발자로 취뽀 성공', 
-          startDate: new Date(2000,0,5),
-          tooltip: {
-            title: '개발자 커리어의 시작',
-            content: '이론에서 실무로, 새로운 도전의 시작이었어요. 전자정부프레임워크 기반 SI/SM 업무 수행(만 2년 3개월)하였고 좀 더 모던한 웹 기술을 습득하기 위해 퇴사를 결정하게 되었습니다.'
-          }
-        },
-        { 
-          label: '웹 개발의 처음과 끝을 완성해보다.', 
-          startDate: new Date(2000,0,6),
-          tooltip: {
-            title: 'End-to-End 개발 경험',
-            content: '화면부터 배포까지 알려주는 교육과정에서 웹 서비스의 전체 생명주기를 경험했습니다. 프론트엔드, 백엔드, 데이터베이스, 인프라까지 풀스택 역량을 키웠고 성공적으로 발표 할 수 있었습니다.'
-          }
-        },
-        { 
-          label: '나라는 존재를 개발 세상에 알리는 중!', 
-          startDate: new Date(2000,0,7),
-          tooltip: {
-            title: '개발자로서의 정체성 확립',
-            content: '기술 블로그, 오픈소스 기여, 커뮤니티 활동을 통해 개발자로서의 브랜딩을 시작했습니다. 지속적인 성장과 지식 공유로 영향력을 확대해 나가고 있습니다..'
-          }
-        }
-      ];
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
 
-      const width = 536;
-      const height = 123;
-      const margin = { top: 70, right: 20, bottom: 0, left: 20 };
-      const effectiveWidth = width * 0.8;
-      const timelineY = (height - margin.top - margin.bottom) / 2 + margin.top;
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#6C63FF] mb-2">3년차 웹 개발자 이호영</h1>
+            <p class="text-xl text-[#00A7A7]">실무 경력 기술서 입니다.</p>
+        </header>
 
-      const svgRoot = d3.select("#timeline-chart")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
+        <main>
+            <section>
+                <div class="relative pl-6 md:pl-8">
+                    <!-- 타임라인 세로선 -->
+                    <!-- 화면 왼쪽을 기준으로 세로선 위치를 고정합니다. -->
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
 
-      const defs = svgRoot.append("defs");
-      const grad = defs.append("linearGradient")
-        .attr("id", "timeline-gradient")
-        .attr("gradientUnits", "userSpaceOnUse")
-        .attr("x1", 0).attr("y1", 0)
-        .attr("x2", effectiveWidth).attr("y2", 0);
-      grad.append("stop").attr("offset","0%").attr("stop-color","#28a745");
-      grad.append("stop").attr("offset","33%").attr("stop-color","#ffc107");
-      grad.append("stop").attr("offset","66%").attr("stop-color","#dc3545");
-      grad.append("stop").attr("offset","100%").attr("stop-color","#6f42c1");
+                    <!-- Project 1 -->
+                    <div class="relative flex items-start mb-12">
+                        <!-- 타임라인 점 및 뱃지 컨테이너 -->
+                        <!-- 세로선에 완벽하게 정렬되도록 absolute 포지셔닝을 사용합니다. -->
+                        <div class="absolute -left-1 md:-left-1 top-6 flex flex-col items-center z-10">
+                            <!-- 타임라인 점 -->
+                            <div class="w-4 h-4 bg-[#6C63FF] rounded-full border-4 border-gray-100 mb-2"></div>
+                            <!-- 프로젝트 태그 -->
+                            <div class="absolute -top-2">
+                                <span class="text-white bg-[#6C63FF] px-3 py-1 text-xs font-bold rounded-full shadow whitespace-nowrap">Project 1</span>
+                            </div>
+                        </div>
+                        <!-- 카드 내용 -->
+                        <div class="flex-grow bg-white rounded-lg shadow-lg p-6 w-full ml-8 md:ml-12">
+                            <h3 class="text-2xl font-bold text-[#6C63FF] mb-2">한국문화정보원 문화공공데이터광장/내부 데이터통합관리시스템 유지보수 및 추가개발</h3>
+                            <p class="text-sm text-gray-500 mb-4">써티웨어 소속 | 5인 개발팀</p>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">주요 역할</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                                        <li>백엔드 서버 개발 및 유지보수, JSP 화면 개발</li>
+                                        <li>Linux 환경에서 SSH 원격 접속을 통한 서비스 상태관리 및 문제 해결</li>
+                                        <li>Oracle/Tibero DB 환경에서 쿼리 최적화 및 시스템 성능 향상 기여</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">기술 스택</h4>
+                                    <div class="flex flex-wrap gap-2 text-sm">
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Java/Spring</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Oracle</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Tibero</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">JSP</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">JavaScript/jQuery</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Linux</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Apache Tomcat</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 p-4 bg-gray-100 rounded-lg border-l-4 border-[#6C63FF]">
+                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 공공기관 API 연동 문제 주도적 해결</h4>
+                                <p class="text-sm text-gray-600">프로젝트 투입 당시, 핵심 인력 부재로 인해 외부 API 연동에 지속적인 문제가 발생했습니다. 내부 보고가 수용되지 않자, 직접 기관 담당자와 소통해 소스 코드를 확보하고 디컴파일러를 활용하여 데이터 수신 방식을 파악, 정상화를 주도했습니다. 이 경험을 통해 기술적 해결 능력뿐만 아니라 적극적인 소통과 주도적인 업무 태도의 중요성을 체감했습니다.</p>
+                            </div>
+                        </div>
+                    </div>
 
-      const svg = svgRoot.append("g")
-        .attr("transform", `translate(${margin.left}, 200)`);
+                    <!-- Project 2 -->
+                    <div class="relative flex items-start mb-12">
+                        <!-- 타임라인 점 및 뱃지 컨테이너 -->
+                        <div class="absolute -left-1 md:-left-1 top-6 flex flex-col items-center z-10">
+                            <!-- 타임라인 점 -->
+                            <div class="w-4 h-4 bg-[#00A7A7] rounded-full border-4 border-gray-100 mb-2"></div>
+                            <!-- 프로젝트 태그 -->
+                            <div class="absolute -top-2">
+                                <span class="text-white bg-[#00A7A7] px-3 py-1 text-xs font-bold rounded-full shadow whitespace-nowrap">Project 2</span>
+                            </div>
+                        </div>
+                        <!-- 카드 내용 -->
+                        <div class="flex-grow bg-white rounded-lg shadow-lg p-6 w-full ml-8 md:ml-12">
+                            <h3 class="text-2xl font-bold text-[#00A7A7] mb-2">한국문화정보원 디지털 문화자원 공동활용플랫폼 신규개발</h3>
+                            <p class="text-sm text-gray-500 mb-4">써티웨어 소속 | 8인 개발팀</p>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">주요 역할</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                                        <li>사업 입찰 서류 준비부터 기획, 개발, 배포까지 프로젝트 전반 참여</li>
+                                        <li>대규모 비정형 문화 데이터 수집/관리/저장 플랫폼 설계 및 구현</li>
+                                        <li>내부 관리 시스템(CMS) 개발 및 구축</li>
+                                        <li>다양한 데이터 형식(Excel,3D 모델,이미지,동영상,음악 등)의 일괄 등록 기능 구현 (선배 개발자와 협업)</li>
+                                        <li>동적 메뉴/카테고리 관리 및 게시판 생성 기능 개발</li>
+                                        <li>사용자 친화적 JSP/Servlet 웹 화면 개발 및 반응형 디자인 적용</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">기술 스택</h4>
+                                    <div class="flex flex-wrap gap-2 text-sm">
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Java/Spring</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">PostgreSQL</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">JSP</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Servlet</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">JavaScript/jQuery</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Linux</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Apache Tomcat</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 p-4 bg-gray-100 rounded-lg border-l-4 border-[#00A7A7]">
+                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 대용량 데이터 쿼리 성능 최적화</h4>
+                                <p class="text-sm text-gray-600">안정화 기간 중 대용량 '문화백서' 데이터 조회 속도 저하 문제를 발견했습니다. 평소 학습했던 DB 인덱싱 개념을 떠올려 직접 구글링을 통해 PostgreSQL 테이블에 인덱스를 적용했고, 그 결과 조회 시간을 개선 전 25초에서 개선 후 4초 이내로 단축하는 데 성공했습니다. 이 경험은 단순 개발을 넘어 스스로 문제를 분석하고 해결하여 시스템 성능을 개선하는 역량을 키우는 계기가 되었습니다.</p>
+                            </div>
+                        </div>
+                    </div>
 
-      const xScale = d3.scaleTime()
-        .domain([d3.min(data, d=>d.startDate), d3.max(data, d=>d.startDate)])
-        .range([0, effectiveWidth]);
+                    <!-- Project 3 -->
+                    <div class="relative flex items-start mb-12">
+                        <!-- 타임라인 점 및 뱃지 컨테이너 -->
+                        <div class="absolute -left-1 md:-left-1 top-6 flex flex-col items-center z-10">
+                            <!-- 타임라인 점 -->
+                            <div class="w-4 h-4 bg-[#FFB703] rounded-full border-4 border-gray-100 mb-2"></div>
+                            <!-- 프로젝트 태그 -->
+                            <div class="absolute -top-2">
+                                <span class="text-white bg-[#FFB703] px-3 py-1 text-xs font-bold rounded-full shadow whitespace-nowrap">Project 3</span>
+                            </div>
+                        </div>
+                        <!-- 카드 내용 -->
+                        <div class="flex-grow bg-white rounded-lg shadow-lg p-6 w-full ml-8 md:ml-12">
+                            <h3 class="text-2xl font-bold text-[#FFB703] mb-2">한국문화정보원 문화 빅데이터 플랫폼 유지보수 추가개발 사업</h3>
+                            <p class="text-sm text-gray-500 mb-4">써티웨어 소속 | 3인 개발팀</p>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">주요 역할 및 성과</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                                        <li>매년 최신화되는 문화 빅데이터 수집 및 정제 작업</li>
+                                        <li>데이터 생성부터 배포까지의 전체 프로세스 경험</li>
+                                        <li>Excel을 활용한 수작업 데이터 가공, 표준화 및 무결성 검증</li>
+                                        <li>플랫폼에 배포 가능한 최종 데이터 제작 및 업로드</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">기술 스택</h4>
+                                    <div class="flex flex-wrap gap-2 text-sm">
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Excel</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Airflow</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 p-4 bg-gray-100 rounded-lg border-l-4 border-[#FFB703]">
+                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 데이터 핸들링 전체 프로세스 경험 및 자동화 이해</h4>
+                                <p class="text-sm text-gray-600">다양한 빅데이터를 다루는 과정에서 DB 쿼리뿐만 아니라 Excel을 활용한 수작업 데이터 가공 작업도 경험했습니다. 이를 통해 데이터가 생성되어 플랫폼에 배포되는 전체 프로세스를 깊이 이해하게 되었으며, Airflow를 이용한 자동 업로드 과정을 직접 보며 데이터 핸들링 업무 역량을 한 단계 더 성장시키는 계기가 되었습니다.</p>
+                            </div>
+                        </div>
+                    </div>
 
-      // 메인 타임라인을 좀 더 얇게 만들어서 연결선이 보이도록 개선
-      const mainLine = svg.append("line")
-        .attr("x1", 0).attr("y1", timelineY - margin.top)
-        .attr("x2", effectiveWidth).attr("y2", timelineY - margin.top)
-        .attr("stroke-width", 4)
-        .attr("stroke-linecap", "round")
-        .style("stroke", "url(#timeline-gradient)")
-        .style("opacity", 0.8);
+                    <!-- Project 4 -->
+                    <div class="relative flex items-start">
+                        <!-- 타임라인 점 및 뱃지 컨테이너 -->
+                        <div class="absolute -left-1 md:-left-1 top-6 flex flex-col items-center z-10">
+                            <!-- 타임라인 점 -->
+                            <div class="w-4 h-4 bg-[#F472B6] rounded-full border-4 border-gray-100 mb-2"></div>
+                            <!-- 프로젝트 태그 -->
+                            <div class="absolute -top-2">
+                                <span class="text-white bg-[#F472B6] px-3 py-1 text-xs font-bold rounded-full shadow whitespace-nowrap">Project 4</span>
+                            </div>
+                        </div>
+                        <!-- 카드 내용 -->
+                        <div class="flex-grow bg-white rounded-lg shadow-lg p-6 w-full ml-8 md:ml-12">
+                            <h3 class="text-2xl font-bold text-[#F472B6] mb-2">하청 프로젝트 프론트엔드 개발 참여 및 경력 방향성 재정립</h3>
+                            <p class="text-sm text-gray-500 mb-4">이전 직장 소속 | 4인 개발팀</p>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">주요 역할 및 성과</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                                        <li>예상치 못한 프론트엔드 프로젝트를 맡아 Vue.js와 바닐라 자바스크립트를 주도적으로 학습하며 프로젝트 요구사항을 성공적으로 해결했습니다.</li>
+                                        <li>위/아래 이동 및 클릭만으로 데이터의 정렬과 관리를 가능하게 하는 **재사용 가능한 컴포넌트**를 직접 구현하여 개발 생산성 향상에 기여했습니다.</li>
+                                        <li>중고급 수준의 기능이 포함된 100페이지 이상 규모의 Vue.js 프로젝트 참여</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">기술 스택</h4>
+                                    <div class="flex flex-wrap gap-2 text-sm">
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Vue.js</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">JavaScript</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">HTML5</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">CSS3</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 p-4 bg-gray-100 rounded-lg border-l-4 border-[#F472B6]">
+                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 위기 상황에서의 적응력과 전문성 재확인</h4>
+                                <p class="text-sm text-gray-600">예상치 못한 프론트엔드 프로젝트에 투입되었지만, 이를 성장의 기회로 삼아 Vue.js와 바닐라 자바스크립트의 핵심 원리를 깊이 있게 학습했습니다. 특히, 위/아래 버튼과 클릭만으로 데이터 정렬 및 관리를 할 수 있는 **라이브러리 형태의 재사용 가능한 컴포넌트**를 직접 설계하고 구현하여 기술적 문제 해결 능력을 입증했습니다. 이 경험을 통해 낯선 기술 스택에 빠르게 적응하는 저의 능력을 확인했으며, 백엔드 개발자로서의 커리어 목표를 더욱 확고히 다지는 계기가 되었습니다.</p>
+                            </div>
+                        </div>
+                    </div>
 
-      const colors = ["#ffc107", "#007bff", "#28a745", "#dc3545", "#6f42c1", "#e83e8c", "#fd7e14"];
+                </div>
+            </section>
+        </main>
 
-      // 점들 사이 연결선을 더 두껍고 진하게 개선
-      for (let i = 1; i < data.length; i++) {
-        svg.append("line")
-          .attr("x1", xScale(data[i-1].startDate))
-          .attr("y1", timelineY - margin.top)
-          .attr("x2", xScale(data[i].startDate))
-          .attr("y2", timelineY - margin.top)
-          .attr("stroke-width", 3)
-          .attr("stroke-linecap", "round")
-          .style("stroke", "#333")
-          .style("opacity", 1);
-      }
+        <footer class="text-center mt-16 pt-8 border-t border-gray-300">
+            <p class="text-gray-600">-이호영 실무 경력 기술서-</p>
+        </footer>
 
-      const groups = svg.selectAll(".item")
-        .data(data)
-        .enter()
-        .append("g")
-        .attr("class", "item");
+    </div>
 
-      // 원을 좀 더 크게 만들어서 연결선과 구분되도록
-      groups.append("circle")
-        .attr("cx", d => xScale(d.startDate))
-        .attr("cy", timelineY - margin.top)
-        .attr("r", 8)
-        .attr("fill", (d,i) => colors[i % colors.length])
-        .attr("stroke", "#fff")
-        .attr("stroke-width", 2)
-        .style("cursor", "pointer")
-        .on("mouseover", function(event, d) {
-          // 호버 시 원 크기 증가 애니메이션
-          d3.select(this)
-            .transition()
-            .duration(200)
-            .attr("r", 12)
-            .attr("stroke-width", 3);
-          
-          // 툴팁 표시
-          const tooltip = d3.select("#tooltip");
-          tooltip.select(".tooltip-title").text(d.tooltip.title);
-          tooltip.select(".tooltip-content").text(d.tooltip.content);
-          
-          tooltip.classed("show", true);
-        })
-        .on("mousemove", function(event) {
-          // 마우스 위치에 따라 툴팁 위치 조정
-          // 이 부분은 중앙에 고정되도록 수정했기 때문에 더 이상 필요 없습니다.
-        })
-        .on("mouseout", function() {
-          // 호버 종료 시 원 크기 복원
-          d3.select(this)
-            .transition()
-            .duration(200)
-            .attr("r", 8)
-            .attr("stroke-width", 2);
-          
-          // 툴팁 숨김
-          d3.select("#tooltip").classed("show", false);
-        });
-
-      const rotationAngle = -45;
-      groups.append("text")
-        .attr("x", d => xScale(d.startDate))
-        .attr("y", timelineY - margin.top - 15)
-        .text(d => d.label)
-        .attr("text-anchor", "start")
-        .attr("dominant-baseline", "hanging")
-        .style("font-size", "13px")
-        .style("fill", (d,i) => colors[i % colors.length])
-        .style("font-weight", "600")
-        .attr("transform", function(d) {
-          const x = xScale(d.startDate);
-          const y = timelineY - margin.top - 15;
-          return `rotate(${rotationAngle}, ${x}, ${y})`;
-        })
-        .attr("pointer-events", "none");
-    });
-  </script>
 </body>
 </html>
