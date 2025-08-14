@@ -9,18 +9,6 @@
             display: flex;
             justify-content: center;
         }
-        .timeline-rect {
-            stroke: #fff;
-            stroke-width: 2px;
-            cursor: pointer;
-        }
-        .timeline-text {
-            font-size: 10px;
-            font-family: sans-serif;
-            fill: black;
-            text-anchor: middle;
-            dominant-baseline: central;
-        }
     </style>
 </head>
 <body>
@@ -29,6 +17,159 @@
     </div>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 데이터 배열: 각 항목의 레이블과 시작/종료 날짜를 정의합니다. 간격 조정을 위해 startDate와 endDate 차이를 수정하세요 (예: 1일을 0.5로 줄여 간격 절반으로).
+            const data = [
+                { label: '대학교 교양수업으로 Java 배우기', startDate: new Date(2000, 0, 1), endDate: new Date(2000, 0, 2) },
+                { label: '2017년 춘계학술발표대회 학부생 논문경진대회 – 금상', startDate: new Date(2000, 0, 2), endDate: new Date(2000, 0, 3) },
+                { label: 'Unity를 활용한 VR/AR 교육 (160시간)', startDate: new Date(2000, 0, 3), endDate: new Date(2000, 0, 4) },
+                { label: 'JAVA 웹개발 스택 교육과정 수료', startDate: new Date(2000, 0, 4), endDate: new Date(2000, 0, 5) },
+                { label: '운 좋게 바로 JAVA 개발자로 취뽀 성공', startDate: new Date(2000, 0, 5), endDate: new Date(2000, 0, 6) },
+                { label: '웹 개발의 처음과 끝을 완성해보다.', startDate: new Date(2000, 0, 6), endDate: new Date(2000, 0, 7) },
+                { label: '나라는 존재를 개발 세상에 알리는 중!', startDate: new Date(2000, 0, 7), endDate: new Date(2000, 0, 8) }
+            ];
+
+            // 차트 너비: 전체 너비를 설정합니다.
+            const width = 1000;
+            // 차트 높이: 전체 높이를 설정합니다.
+            const height = 500;
+            // 여백 설정: 상하좌우 여백을 정의합니다.
+            const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
+            // SVG 요소 선택: 타임라인 차트를 그릴 SVG를 선택합니다.
+            const svg = d3.select("#timeline-chart")
+                // SVG 너비 설정: 너비 + 여백을 적용합니다.
+                .attr("width", width + margin.left + margin.right)
+                // SVG 높이 설정: 높이 + 여백을 적용합니다.
+                .attr("height", height + margin.top + margin.bottom)
+                // 그룹 요소 추가: 콘텐츠를 위한 g 요소를 추가합니다.
+                .append("g")
+                // 그룹 이동: 여백만큼 이동합니다.
+                .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+            // 점 간격 배율 변수: 이 값을 변경하여 점 간격을 쉽게 조정하세요 (예: 0.5로 하면 간격 절반, 2로 하면 두 배).
+            const spacingMultiplier = 0.5; // 기본 1 (원본 간격), 점 간격 조정 용이성을 위해 추가.
+
+            // x축 스케일: 시간 스케일을 생성합니다.
+            const xScale = d3.scaleTime()
+                // 도메인 설정: 데이터의 최소 시작 날짜부터 최대 종료 날짜까지.
+                .domain([d3.min(data, d => d.startDate), d3.max(data, d => d.endDate)])
+                // 범위 설정: 0부터 너비까지, spacingMultiplier 곱하여 간격 조정 (작게 하면 압축).
+                .range([0, width * spacingMultiplier]);
+
+            // 타임라인 Y 위치: 높이의 절반으로 중앙에 배치합니다.
+            const timelineY = height / 2;
+
+            // defs 요소 정의: 그라데이션을 위한 defs를 추가합니다.
+            const defs = svg.append("defs");
+            // 선형 그라데이션 생성: 타임라인 선의 색상 그라데이션을 만듭니다.
+            const gradient = defs.append("linearGradient")
+                // ID 설정: 그라데이션 참조 ID.
+                .attr("id", "timeline-gradient")
+                // 시작점 x: 0%.
+                .attr("x1", "0%")
+                // 시작점 y: 0%.
+                .attr("y1", "0%")
+                // 끝점 x: 100%.
+                .attr("x2", "100%")
+                // 끝점 y: 0%.
+                .attr("y2", "0%");
+            // 그라데이션 정지점 추가: 0%에서 녹색.
+            gradient.append("stop").attr("offset", "0%").attr("stop-color", "green");
+            // 그라데이션 정지점 추가: 33%에서 주황.
+            gradient.append("stop").attr("offset", "33%").attr("stop-color", "orange");
+            // 그라데이션 정지점 추가: 66%에서 빨강.
+            gradient.append("stop").attr("offset", "66%").attr("stop-color", "red");
+            // 그라데이션 정지점 추가: 100%에서 보라.
+            gradient.append("stop").attr("offset", "100%").attr("stop-color", "purple");
+
+            // 타임라인 선 추가: 그라데이션 적용된 선을 그립니다.
+            svg.append("line")
+                // 시작 x: 0.
+                .attr("x1", 0)
+                // 시작 y: 타임라인 Y.
+                .attr("y1", timelineY)
+                // 끝 x: 너비 (spacingMultiplier 적용된 너비로 조정).
+                .attr("x2", width * spacingMultiplier)
+                // 끝 y: 타임라인 Y.
+                .attr("y2", timelineY)
+                // 선 색상: 그라데이션 URL.
+                .attr("stroke", "url(#timeline-gradient)")
+                // 선 두께: 4.
+                .attr("stroke-width", 4);
+
+            // 색상 배열: 각 항목의 색상을 정의합니다.
+            const colors = ["#ffc107", "#007bff", "#28a745", "#dc3545", "#6f42c1", "#e83e8c", "#fd7e14"];
+
+            // 타임라인 아이템 선택: 데이터 바인딩을 위한 선택.
+            const timeline = svg.selectAll(".timeline-item")
+                // 데이터 바인딩: data 배열.
+                .data(data)
+                // 엔터 선택: 새 요소 추가.
+                .enter()
+                // 그룹 추가: 각 아이템당 g 요소.
+                .append("g")
+                // 클래스 설정: timeline-item.
+                .attr("class", "timeline-item");
+
+            // 연결 선 추가: 점 사이를 연결하는 선.
+            timeline.append("line")
+                // 시작 x: 첫 번째면 현재 시작, 아니면 이전 종료.
+                .attr("x1", (d, i) => i === 0 ? xScale(d.startDate) : xScale(data[i - 1].endDate))
+                // 시작 y: 타임라인 Y.
+                .attr("y1", (d, i) => i === 0 ? timelineY : timelineY)
+                // 끝 x: 현재 시작.
+                .attr("x2", d => xScale(d.startDate))
+                // 끝 y: 타임라인 Y.
+                .attr("y2", timelineY)
+                // 선 색상: 회색.
+                .attr("stroke", "gray")
+                // 선 두께: 1.
+                .attr("stroke-width", 1);
+
+            // 원 추가: 각 점에 원을 그립니다.
+            timeline.append("circle")
+                // 중심 x: 시작 날짜 스케일.
+                .attr("cx", d => xScale(d.startDate))
+                // 중심 y: 타임라인 Y.
+                .attr("cy", timelineY)
+                // 반지름: 6.
+                .attr("r", 6)
+                // 채우기 색상: 색상 배열에서.
+                .attr("fill", (d, i) => colors[i % colors.length]);
+
+            // 텍스트 회전 각도 변수: 이 값을 변경하여 회전 방향 조정 (양수: 시계 방향, 음수: 반시계 방향, 예: -45로 반시계 45도).
+            const rotationAngle = -45; // 원본 45도에서 반시계 90도 회전 적용 (45 - 90 = -45).
+
+            // 기울어진 텍스트 추가: 컬러풀한 텍스트 레이블.
+            timeline.append("text")
+                // 기본 x: 시작 날짜 스케일.
+                .attr("x", d => xScale(d.startDate))
+                // 기본 y: 선 위쪽 15px.
+                .attr("y", timelineY - 15)
+                // 텍스트 내용: 레이블.
+                .text(d => d.label)
+                // 텍스트 앵커: 시작점.
+                .attr("text-anchor", "start")
+                // 베이스라인: hanging (위쪽 정렬).
+                .attr("dominant-baseline", "hanging")
+                // 변환: 회전 적용.
+                .attr("transform", d => {
+                    // 피벗 x 계산: 시작 날짜 스케일.
+                    const x = xScale(d.startDate);
+                    // 피벗 y 계산: y 위치.
+                    const y = timelineY - 15;
+                    // 회전 문자열: rotationAngle 사용.
+                    return `rotate(${rotationAngle}, ${x}, ${y})`; // Upper-left slant로 변경.
+                })
+                // 폰트 크기: 14px.
+                .style("font-size", "14px")
+                // 폰트 가족: sans-serif.
+                .style("font-family", "sans-serif")
+                // 채우기 색상: 색상 배열에서.
+                .style("fill", (d, i) => colors[i % colors.length]);
+        });
+    </script>
 </body>
 </html>
