@@ -58,13 +58,17 @@
   <div class="chart-container">
     <svg id="timeline-chart" width="1000" height="360"></svg>
   </div>
+  <div class="tooltip" id="tooltip">
+    <div class="tooltip-title"></div>
+    <div class="tooltip-content"></div>
+  </div>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const data = [
         { 
-          label: '대학교 교양수업으로 Java를 맛보다.', 
+          label: '대학교 교양수업으로 Java 배우기', 
           startDate: new Date(2000,0,1),
           tooltip: {
             title: 'Java 프로그래밍 첫 걸음',
@@ -75,8 +79,8 @@
           label: '2017년 춘계학술발표대회 학부생 논문경진대회 – 금상', 
           startDate: new Date(2000,0,2),
           tooltip: {
-            title: '개발 프로젝트 관련 첫 번째 결실',
-            content: '아두이노와 라즈베리 파이 기반의 스마트 도어록시스템 구현 프로젝트에 3D 프린팅 팀원으로 협업. 개발자를 동경하는 계기가 되었음.'
+            title: '학술 성취의 첫 번째 결실',
+            content: '연구 능력과 문제 해결 역량을 인정받아 금상을 수상했습니다. 이론과 실무를 결합한 연구로 학계에서도 인정받는 성과를 거두었어요.'
           }
         },
         { 
@@ -84,15 +88,15 @@
           startDate: new Date(2000,0,3),
           tooltip: {
             title: '차세대 기술 몰입 학습',
-            content: '지역 유명명소로 워프시켜 설명해주는 VR앱 완성. 강사님께 후일담으로 '
+            content: '160시간 동안 Unity 엔진을 마스터하며 VR/AR 개발 역량을 키웠습니다. 3D 모델링, 물리 엔진, 사용자 인터렉션까지 체계적으로 학습했어요.'
           }
         },
         { 
-          label: 'JAVA 웹개발 교육과정 수료', 
+          label: 'JAVA 웹개발 스택 교육과정 수료', 
           startDate: new Date(2000,0,4),
           tooltip: {
-            title: '본격적인 개발자로의 전환점',
-            content: 'Spring Framework, JSP, Servlet, Database 연동까지 웹 개발의 전체 스택을 학습했습니다. 실무 중심의 프로젝트로 실전 경험을 쌓았어요. 열심히 활동하여 특모범상 수상 (출석률 100%),봉사상 수상 (학급반장 수행), 반내 최우수 프로젝트 선정됨.'
+            title: '풀스택 개발자로의 전환점',
+            content: 'Spring Framework, JSP, Servlet, Database 연동까지 웹 개발의 전체 스택을 마스터했습니다. 실무 중심의 프로젝트로 실전 경험을 쌓았어요.'
           }
         },
         { 
@@ -100,15 +104,15 @@
           startDate: new Date(2000,0,5),
           tooltip: {
             title: '개발자 커리어의 시작',
-            content: '체계적인 학습과 프로젝트 경험을 바탕으로 첫 개발자 포지션에 성공적으로 입사했습니다. 이론에서 실무로, 새로운 도전의 시작이었어요. 전자정부프레임워크 기반 SI/SM 업무 수행(만 2년 3개월)하였습니다.'
+            content: '체계적인 학습과 프로젝트 경험을 바탕으로 첫 개발자 포지션에 성공적으로 입사했습니다. 이론에서 실무로, 새로운 도전의 시작이었어요.'
           }
         },
         { 
-          label: '웹 개발의 처음과 끝을 완성하기 위해 도전', 
+          label: '웹 개발의 처음과 끝을 완성해보다.', 
           startDate: new Date(2000,0,6),
           tooltip: {
             title: 'End-to-End 개발 경험',
-            content: '기획부터 배포까지 알려주는 교육과정에서 웹 서비스의 전체 생명주기를 경험했습니다. 프론트엔드, 백엔드, 데이터베이스, 인프라까지 풀스택 역량을 키웠고 성공적으로 발표 할 수 있었습니다.'
+            content: '기획부터 배포까지 웹 서비스의 전체 생명주기를 경험했습니다. 프론트엔드, 백엔드, 데이터베이스, 인프라까지 풀스택 역량을 키웠어요.'
           }
         },
         { 
@@ -116,7 +120,7 @@
           startDate: new Date(2000,0,7),
           tooltip: {
             title: '개발자로서의 정체성 확립',
-            content: '기술 블로그, 오픈소스 기여, 커뮤니티 활동을 통해 개발자로서의 브랜딩을 시작했습니다. 지속적인 성장과 지식 공유로 영향력을 확대해 나가고 있습니다!'
+            content: '기술 블로그, 오픈소스 기여, 커뮤니티 활동을 통해 개발자로서의 브랜딩을 시작했습니다. 지속적인 성장과 지식 공유로 영향력을 확대해 나가고 있어요.'
           }
         }
       ];
