@@ -1,141 +1,127 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8" />
-    <title>D3 Timeline Chart - 연결선 수정본</title>
-    <style>
-        .chart-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-        /* 텍스트가 잘려 보이는 경우를 대비한 간단한 스타일 */
-        svg {
-            font-family: "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <title>Timeline - Inline Styles</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: "Segoe UI", Roboto, "Noto Sans KR", sans-serif; padding: 20px; background:#fff; }
+    .chart-container { display:flex; justify-content:center; }
+    svg { overflow: visible; }
+  </style>
 </head>
 <body>
-    <div class="chart-container">
-        <svg id="timeline-chart" width="1000" height="500"></svg>
-    </div>
+  <h2>타임라인 (인라인 스타일 적용)</h2>
+  <div class="chart-container">
+    <svg id="timeline-chart" width="1000" height="360"></svg>
+  </div>
 
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // 데이터 배열
-            const data = [
-                { label: '대학교 교양수업으로 Java 배우기', startDate: new Date(2000, 0, 1), endDate: new Date(2000, 0, 2) },
-                { label: '2017년 춘계학술발표대회 학부생 논문경진대회 – 금상', startDate: new Date(2000, 0, 2), endDate: new Date(2000, 0, 3) },
-                { label: 'Unity를 활용한 VR/AR 교육 (160시간)', startDate: new Date(2000, 0, 3), endDate: new Date(2000, 0, 4) },
-                { label: 'JAVA 웹개발 스택 교육과정 수료', startDate: new Date(2000, 0, 4), endDate: new Date(2000, 0, 5) },
-                { label: '운 좋게 바로 JAVA 개발자로 취뽀 성공', startDate: new Date(2000, 0, 5), endDate: new Date(2000, 0, 6) },
-                { label: '웹 개발의 처음과 끝을 완성해보다.', startDate: new Date(2000, 0, 6), endDate: new Date(2000, 0, 7) },
-                { label: '나라는 존재를 개발 세상에 알리는 중!', startDate: new Date(2000, 0, 7), endDate: new Date(2000, 0, 8) }
-            ];
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const data = [
+        { label: '대학교 교양수업으로 Java 배우기', startDate: new Date(2000,0,1) },
+        { label: '2017년 춘계학술발표대회 학부생 논문경진대회 – 금상', startDate: new Date(2000,0,2) },
+        { label: 'Unity를 활용한 VR/AR 교육 (160시간)', startDate: new Date(2000,0,3) },
+        { label: 'JAVA 웹개발 스택 교육과정 수료', startDate: new Date(2000,0,4) },
+        { label: '운 좋게 바로 JAVA 개발자로 취뽀 성공', startDate: new Date(2000,0,5) },
+        { label: '웹 개발의 처음과 끝을 완성해보다.', startDate: new Date(2000,0,6) },
+        { label: '나라는 존재를 개발 세상에 알리는 중!', startDate: new Date(2000,0,7) }
+      ];
 
-            // 차트 설정
-            const width = 900;   // 내부 그리기 너비
-            const height = 300;  // 내부 그리기 높이
-            const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+      const width = 900, height = 300;
+      const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+      const effectiveWidth = width * 0.9; // spacing multiplier 적용 예시
+      const timelineY = (height - margin.top - margin.bottom) / 2 + margin.top;
 
-            // 점 간격 배율
-            const spacingMultiplier = 0.9; // 0.5 등으로 조절 가능
-            const effectiveWidth = width * spacingMultiplier;
+      // root SVG
+      const svgRoot = d3.select("#timeline-chart")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
 
-            // SVG 루트와 내부 그룹 분리
-            const svgRoot = d3.select("#timeline-chart")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom);
+      // defs MUST be in the same svg
+      const defs = svgRoot.append("defs");
+      const grad = defs.append("linearGradient")
+        .attr("id", "timeline-gradient")
+        .attr("gradientUnits", "userSpaceOnUse") // 중요: 픽셀 좌표계로 그라데이션 적용
+        .attr("x1", 0).attr("y1", 0)
+        .attr("x2", effectiveWidth).attr("y2", 0);
+      grad.append("stop").attr("offset","0%").attr("stop-color","#28a745");
+      grad.append("stop").attr("offset","33%").attr("stop-color","#ffc107");
+      grad.append("stop").attr("offset","66%").attr("stop-color","#dc3545");
+      grad.append("stop").attr("offset","100%").attr("stop-color","#6f42c1");
 
-            // defs는 루트 svg에 추가 (그라데이션이 안정적으로 참조되도록)
-            const defs = svgRoot.append("defs");
-            const gradient = defs.append("linearGradient")
-                .attr("id", "timeline-gradient")
-                .attr("x1", "0%").attr("y1", "0%")
-                .attr("x2", "100%").attr("y2", "0%");
-            gradient.append("stop").attr("offset", "0%").attr("stop-color", "green");
-            gradient.append("stop").attr("offset", "33%").attr("stop-color", "orange");
-            gradient.append("stop").attr("offset", "66%").attr("stop-color", "red");
-            gradient.append("stop").attr("offset", "100%").attr("stop-color", "purple");
+      // 그룹(마진 적용)
+      const svg = svgRoot.append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-            // 내부 그룹 (마진 적용)
-            const svg = svgRoot.append("g")
-                .attr("transform", `translate(${margin.left}, ${margin.top})`);
+      // x scale
+      const xScale = d3.scaleTime()
+        .domain([d3.min(data, d=>d.startDate), d3.max(data, d=>d.startDate)])
+        .range([0, effectiveWidth]);
 
-            // x 스케일: 도메인(최소 시작~최대 종료) -> 범위(0 ~ effectiveWidth)
-            const xScale = d3.scaleTime()
-                .domain([d3.min(data, d => d.startDate), d3.max(data, d => d.endDate)])
-                .range([0, effectiveWidth]);
+      // 메인 타임라인 (그라데이션) - 인라인 스타일로 적용
+      const mainLine = svg.append("line")
+        .attr("x1", 0).attr("y1", timelineY - margin.top)
+        .attr("x2", effectiveWidth).attr("y2", timelineY - margin.top)
+        .attr("stroke-width", 8)
+        .attr("stroke-linecap", "round")
+        // 인라인 스타일로 그라데이션 참조 (브라우저/DevTools에서 CSS reference 문제 안 생김)
+        .style("stroke", "url(#timeline-gradient)")
+        .style("opacity", 1);
 
-            // 타임라인 중앙 Y
-            const timelineY = height / 2;
+      // 색상 배열 (점용)
+      const colors = ["#ffc107", "#007bff", "#28a745", "#dc3545", "#6f42c1", "#e83e8c", "#fd7e14"];
 
-            // 타임라인 바(그라데이션)
-            svg.append("line")
-                .attr("x1", 0)
-                .attr("y1", timelineY)
-                .attr("x2", effectiveWidth)
-                .attr("y2", timelineY)
-                .attr("stroke", "url(#timeline-gradient)")
-                .attr("stroke-width", 4)
-                .attr("stroke-linecap", "round");
+      // 점들 사이 연결선 (단색) — 역시 인라인 스타일로 지정
+      for (let i = 1; i < data.length; i++) {
+        svg.append("line")
+          .attr("x1", xScale(data[i-1].startDate))
+          .attr("y1", timelineY - margin.top)
+          .attr("x2", xScale(data[i].startDate))
+          .attr("y2", timelineY - margin.top)
+          .attr("stroke-width", 2)
+          .attr("stroke-linecap", "round")
+          .style("stroke", "#888") // 인라인 스타일
+          .style("opacity", 0.9);
+      }
 
-            // 색상 배열
-            const colors = ["#ffc107", "#007bff", "#28a745", "#dc3545", "#6f42c1", "#e83e8c", "#fd7e14"];
+      // 그룹으로 원과 텍스트 추가
+      const groups = svg.selectAll(".item")
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("class", "item");
 
-            // 먼저 점들 사이를 잇는 선을 그립니다 (원보다 먼저 그리면 원이 위에 보입니다)
-            for (let i = 1; i < data.length; i++) {
-                svg.append("line")
-                    .attr("x1", xScale(data[i - 1].startDate))
-                    .attr("y1", timelineY)
-                    .attr("x2", xScale(data[i].startDate))
-                    .attr("y2", timelineY)
-                    .attr("stroke", "#888")
-                    .attr("stroke-width", 2)
-                    .attr("stroke-linecap", "round")
-                    .attr("opacity", 0.8);
-            }
+      // 원 (인라인 stroke/fill)
+      groups.append("circle")
+        .attr("cx", d => xScale(d.startDate))
+        .attr("cy", timelineY - margin.top)
+        .attr("r", 7)
+        .attr("fill", (d,i) => colors[i % colors.length])
+        .attr("stroke", "#333")
+        .attr("stroke-width", 1.2);
 
-            // 그룹 생성 & 원, 텍스트 추가
-            const groups = svg.selectAll(".timeline-item")
-                .data(data)
-                .enter()
-                .append("g")
-                .attr("class", "timeline-item");
+      // 라벨 (회전)
+      const rotationAngle = -45;
+      groups.append("text")
+        .attr("x", d => xScale(d.startDate))
+        .attr("y", timelineY - margin.top - 12)
+        .text(d => d.label)
+        .attr("text-anchor", "start")
+        .attr("dominant-baseline", "hanging")
+        .style("font-size", "13px")
+        .style("fill", (d,i) => colors[i % colors.length])
+        .attr("transform", function(d) {
+          const x = xScale(d.startDate);
+          const y = timelineY - margin.top - 12;
+          return `rotate(${rotationAngle}, ${x}, ${y})`;
+        })
+        .attr("pointer-events", "none");
 
-            // 원 추가
-            groups.append("circle")
-                .attr("cx", d => xScale(d.startDate))
-                .attr("cy", timelineY)
-                .attr("r", 7)
-                .attr("fill", (d, i) => colors[i % colors.length])
-                .attr("stroke", "#333")
-                .attr("stroke-width", 1.2);
-
-            // 회전 각도 (음수 = 반시계)
-            const rotationAngle = -45;
-
-            // 텍스트 추가 (회전 처리)
-            groups.append("text")
-                .attr("x", d => xScale(d.startDate))
-                .attr("y", timelineY - 12)
-                .text(d => d.label)
-                .attr("text-anchor", "start")
-                .attr("dominant-baseline", "hanging")
-                .style("font-size", "13px")
-                .style("fill", (d, i) => colors[i % colors.length])
-                .attr("transform", function(d) {
-                    const x = xScale(d.startDate);
-                    const y = timelineY - 12;
-                    return `rotate(${rotationAngle}, ${x}, ${y})`;
-                })
-                .attr("pointer-events", "none"); // 텍스트가 마우스 이벤트를 받지 않도록
-
-            // (선택) x축 눈금을 넣고 싶다면 아래 예시를 참고하세요.
-            // const xAxis = d3.axisBottom(xScale).ticks(data.length);
-            // svg.append("g").attr("transform", `translate(0, ${timelineY + 30})`).call(xAxis);
-        });
-    </script>
+      // (디버그용) 빠르게 단색으로 보이는지 확인하고 싶다면 아래 주석 해제
+      // svg.append("line").attr("x1",0).attr("y1",timelineY- margin.top + 20).attr("x2",effectiveWidth).attr("y2",timelineY- margin.top + 20).style("stroke","red").attr("stroke-width",4);
+    });
+  </script>
 </body>
 </html>
