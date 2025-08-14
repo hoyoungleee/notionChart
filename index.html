@@ -8,7 +8,7 @@
     body { font-family: "Segoe UI", Roboto, "Noto Sans KR", sans-serif; padding: 20px; background:#fff; }
     .chart-container { 
         display:flex; 
-        justify-content: center;
+
         }
     svg { overflow: visible; }
     
@@ -132,7 +132,7 @@
       const width = 536;
       const height = 123;
       const margin = { top: 70, right: 20, bottom: 0, left: 20 };
-      const effectiveWidth = width * 1;
+      const effectiveWidth = width * 0.8;
       const timelineY = (height - margin.top - margin.bottom) / 2 + margin.top;
 
       const svgRoot = d3.select("#timeline-chart")
