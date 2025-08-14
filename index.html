@@ -130,7 +130,7 @@
       const width = 536;
       const height = 123;
       const margin = { top: 70, right: 20, bottom: 0, left: 20 };
-      const effectiveWidth = width * 0.9;
+      const effectiveWidth = width * 0.6;
       const timelineY = (height - margin.top - margin.bottom) / 2 + margin.top;
 
       const svgRoot = d3.select("#timeline-chart")
@@ -149,7 +149,7 @@
       grad.append("stop").attr("offset","100%").attr("stop-color","#6f42c1");
 
       const svg = svgRoot.append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+        .attr("transform", `translate(${margin.left}, 180)`);
 
       const xScale = d3.scaleTime()
         .domain([d3.min(data, d=>d.startDate), d3.max(data, d=>d.startDate)])
