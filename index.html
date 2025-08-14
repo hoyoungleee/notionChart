@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <title>Timeline - Inline Styles</title>
+  <title>Timeline - 연결선 개선</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     body { font-family: "Segoe UI", Roboto, "Noto Sans KR", sans-serif; padding: 20px; background:#fff; }
@@ -11,7 +11,7 @@
   </style>
 </head>
 <body>
-  <h2>타임라인 (인라인 스타일 적용)</h2>
+  <h2>타임라인 (연결선 개선)</h2>
   <div class="chart-container">
     <svg id="timeline-chart" width="1000" height="360"></svg>
   </div>
@@ -31,19 +31,17 @@
 
       const width = 900, height = 300;
       const margin = { top: 20, right: 20, bottom: 20, left: 20 };
-      const effectiveWidth = width * 0.9; // spacing multiplier 적용 예시
+      const effectiveWidth = width * 0.9;
       const timelineY = (height - margin.top - margin.bottom) / 2 + margin.top;
 
-      // root SVG
       const svgRoot = d3.select("#timeline-chart")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
 
-      // defs MUST be in the same svg
       const defs = svgRoot.append("defs");
       const grad = defs.append("linearGradient")
         .attr("id", "timeline-gradient")
-        .attr("gradientUnits", "userSpaceOnUse") // 중요: 픽셀 좌표계로 그라데이션 적용
+        .attr("gradientUnits", "userSpaceOnUse")
         .attr("x1", 0).attr("y1", 0)
         .attr("x2", effectiveWidth).attr("y2", 0);
       grad.append("stop").attr("offset","0%").attr("stop-color","#28a745");
@@ -51,76 +49,68 @@
       grad.append("stop").attr("offset","66%").attr("stop-color","#dc3545");
       grad.append("stop").attr("offset","100%").attr("stop-color","#6f42c1");
 
-      // 그룹(마진 적용)
       const svg = svgRoot.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-      // x scale
       const xScale = d3.scaleTime()
         .domain([d3.min(data, d=>d.startDate), d3.max(data, d=>d.startDate)])
         .range([0, effectiveWidth]);
 
-      // 메인 타임라인 (그라데이션) - 인라인 스타일로 적용
+      // 메인 타임라인을 좀 더 얇게 만들어서 연결선이 보이도록 개선
       const mainLine = svg.append("line")
         .attr("x1", 0).attr("y1", timelineY - margin.top)
         .attr("x2", effectiveWidth).attr("y2", timelineY - margin.top)
-        .attr("stroke-width", 8)
+        .attr("stroke-width", 4) // 8에서 4로 줄임
         .attr("stroke-linecap", "round")
-        // 인라인 스타일로 그라데이션 참조 (브라우저/DevTools에서 CSS reference 문제 안 생김)
         .style("stroke", "url(#timeline-gradient)")
-        .style("opacity", 1);
+        .style("opacity", 0.8); // 약간 투명하게
 
-      // 색상 배열 (점용)
       const colors = ["#ffc107", "#007bff", "#28a745", "#dc3545", "#6f42c1", "#e83e8c", "#fd7e14"];
 
-      // 점들 사이 연결선 (단색) — 역시 인라인 스타일로 지정
+      // 점들 사이 연결선을 더 두껍고 진하게 개선
       for (let i = 1; i < data.length; i++) {
         svg.append("line")
           .attr("x1", xScale(data[i-1].startDate))
           .attr("y1", timelineY - margin.top)
           .attr("x2", xScale(data[i].startDate))
           .attr("y2", timelineY - margin.top)
-          .attr("stroke-width", 2)
+          .attr("stroke-width", 3) // 2에서 3으로 증가
           .attr("stroke-linecap", "round")
-          .style("stroke", "#888") // 인라인 스타일
-          .style("opacity", 0.9);
+          .style("stroke", "#333") // #888에서 #333으로 더 진하게
+          .style("opacity", 1); // 0.9에서 1로 불투명하게
       }
 
-      // 그룹으로 원과 텍스트 추가
       const groups = svg.selectAll(".item")
         .data(data)
         .enter()
         .append("g")
         .attr("class", "item");
 
-      // 원 (인라인 stroke/fill)
+      // 원을 좀 더 크게 만들어서 연결선과 구분되도록
       groups.append("circle")
         .attr("cx", d => xScale(d.startDate))
         .attr("cy", timelineY - margin.top)
-        .attr("r", 7)
+        .attr("r", 8) // 7에서 8로 증가
         .attr("fill", (d,i) => colors[i % colors.length])
-        .attr("stroke", "#333")
-        .attr("stroke-width", 1.2);
+        .attr("stroke", "#fff") // 흰색 테두리로 변경
+        .attr("stroke-width", 2); // 테두리도 두껍게
 
-      // 라벨 (회전)
       const rotationAngle = -45;
       groups.append("text")
         .attr("x", d => xScale(d.startDate))
-        .attr("y", timelineY - margin.top - 12)
+        .attr("y", timelineY - margin.top - 15) // 좀 더 위로
         .text(d => d.label)
         .attr("text-anchor", "start")
         .attr("dominant-baseline", "hanging")
         .style("font-size", "13px")
         .style("fill", (d,i) => colors[i % colors.length])
+        .style("font-weight", "600") // 폰트 두껍게
         .attr("transform", function(d) {
           const x = xScale(d.startDate);
-          const y = timelineY - margin.top - 12;
+          const y = timelineY - margin.top - 15;
           return `rotate(${rotationAngle}, ${x}, ${y})`;
         })
         .attr("pointer-events", "none");
-
-      // (디버그용) 빠르게 단색으로 보이는지 확인하고 싶다면 아래 주석 해제
-      // svg.append("line").attr("x1",0).attr("y1",timelineY- margin.top + 20).attr("x2",effectiveWidth).attr("y2",timelineY- margin.top + 20).style("stroke","red").attr("stroke-width",4);
     });
   </script>
 </body>
