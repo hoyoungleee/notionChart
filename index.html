@@ -28,23 +28,15 @@
         <main>
             <section>
                 <div class="relative pl-6 md:pl-8">
-                    <!-- 타임라인 세로선 -->
-                    <!-- 화면 왼쪽을 기준으로 세로선 위치를 고정합니다. -->
                     <div class="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
 
-                    <!-- Project 1 -->
                     <div class="relative flex items-start mb-12">
-                        <!-- 타임라인 점 및 뱃지 컨테이너 -->
-                        <!-- 세로선에 완벽하게 정렬되도록 absolute 포지셔닝을 사용합니다. -->
                         <div class="absolute -left-1 md:-left-1 top-6 flex flex-col items-center z-10">
-                            <!-- 타임라인 점 -->
                             <div class="w-4 h-4 bg-[#6C63FF] rounded-full border-4 border-gray-100 mb-2"></div>
-                            <!-- 프로젝트 태그 -->
                             <div class="absolute -top-2">
                                 <span class="text-white bg-[#6C63FF] px-3 py-1 text-xs font-bold rounded-full shadow whitespace-nowrap">Project 1</span>
                             </div>
                         </div>
-                        <!-- 카드 내용 -->
                         <div class="flex-grow bg-white rounded-lg shadow-lg p-6 w-full ml-8 md:ml-12">
                             <h3 class="text-2xl font-bold text-[#6C63FF] mb-2">한국문화정보원 문화공공데이터광장/내부 데이터통합관리시스템 유지보수 및 추가개발</h3>
                             <div class="space-y-4">
@@ -53,7 +45,7 @@
                                     <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
                                         <li>백엔드 서버 개발 및 유지보수, JSP 화면 개발</li>
                                         <li>Linux 환경에서 SSH 원격 접속을 통한 서비스 상태관리 및 문제 해결</li>
-                                        <li>Oracle/Tibero DB 환경에서 쿼리 최적화 및 시스템 성능 향상 기여</li>
+                                        <li>Oracle/Tibero DB 환경에서 쿼리 신규 작성 및 시스템 성능 향상 기여</li>
                                     </ul>
                                 </div>
                                 <div>
@@ -70,24 +62,19 @@
                                 </div>
                             </div>
                             <div class="mt-6 p-4 bg-gray-100 rounded-lg border-l-4 border-[#6C63FF]">
-                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 공공기관 API 연동 문제 주도적 해결</h4>
+                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 공공기관 데이터 수집 API 연동 문제 주도적 해결</h4>
                                 <p class="text-sm text-gray-600">프로젝트 투입 당시, 핵심 인력 부재로 인해 외부 API 연동에 지속적인 문제가 발생했습니다. 내부 보고가 수용되지 않자, 직접 기관 담당자와 소통해 소스 코드를 확보하고 디컴파일러를 활용하여 데이터 수신 방식을 파악, 정상화를 주도했습니다. 이 경험을 통해 기술적 해결 능력뿐만 아니라 적극적인 소통과 주도적인 업무 태도의 중요성을 체감했습니다.</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Project 2 -->
                     <div class="relative flex items-start mb-12">
-                        <!-- 타임라인 점 및 뱃지 컨테이너 -->
                         <div class="absolute -left-1 md:-left-1 top-6 flex flex-col items-center z-10">
-                            <!-- 타임라인 점 -->
                             <div class="w-4 h-4 bg-[#00A7A7] rounded-full border-4 border-gray-100 mb-2"></div>
-                            <!-- 프로젝트 태그 -->
                             <div class="absolute -top-2">
                                 <span class="text-white bg-[#00A7A7] px-3 py-1 text-xs font-bold rounded-full shadow whitespace-nowrap">Project 2</span>
                             </div>
                         </div>
-                        <!-- 카드 내용 -->
                         <div class="flex-grow bg-white rounded-lg shadow-lg p-6 w-full ml-8 md:ml-12">
                             <h3 class="text-2xl font-bold text-[#00A7A7] mb-2">한국문화정보원 디지털 문화자원 공동활용플랫폼 신규개발</h3>
                             <div class="space-y-4">
@@ -116,24 +103,19 @@
                                 </div>
                             </div>
                             <div class="mt-6 p-4 bg-gray-100 rounded-lg border-l-4 border-[#00A7A7]">
-                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 대용량 데이터 쿼리 성능 최적화</h4>
-                                <p class="text-sm text-gray-600">안정화 기간 중 대용량 '문화백서' 데이터 조회 속도 저하 문제를 발견했습니다. 평소 학습했던 DB 인덱싱 개념을 떠올려 직접 구글링을 통해 PostgreSQL 테이블에 인덱스를 적용했고, 그 결과 조회 시간을 개선 전 25초에서 개선 후 4초 이내로 단축하는 데 성공했습니다. 이 경험은 단순 개발을 넘어 스스로 문제를 분석하고 해결하여 시스템 성능을 개선하는 역량을 키우는 계기가 되었습니다.</p>
+                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 조회 쿼리 성능 최적화</h4>
+                                <p class="text-sm text-gray-600">안정화 기간 중 '문화정보화백서' 데이터 조회 속도 저하 문제를 발견했습니다. 평소 학습했던 DB 인덱싱 개념을 떠올려 직접 인덱스 생성문을 통해 PostgreSQL 테이블에 인덱스를 적용했고, 그 결과 조회 시간을 개선 전 25초에서 개선 후 4초 이내로 단축하는 데 성공했습니다. 이 경험은 단순 개발을 넘어 스스로 문제를 분석하고 해결하여 시스템 성능을 개선하는 역량을 키우는 계기가 되었습니다.</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Project 3 -->
                     <div class="relative flex items-start mb-12">
-                        <!-- 타임라인 점 및 뱃지 컨테이너 -->
                         <div class="absolute -left-1 md:-left-1 top-6 flex flex-col items-center z-10">
-                            <!-- 타임라인 점 -->
                             <div class="w-4 h-4 bg-[#FFB703] rounded-full border-4 border-gray-100 mb-2"></div>
-                            <!-- 프로젝트 태그 -->
                             <div class="absolute -top-2">
                                 <span class="text-white bg-[#FFB703] px-3 py-1 text-xs font-bold rounded-full shadow whitespace-nowrap">Project 3</span>
                             </div>
                         </div>
-                        <!-- 카드 내용 -->
                         <div class="flex-grow bg-white rounded-lg shadow-lg p-6 w-full ml-8 md:ml-12">
                             <h3 class="text-2xl font-bold text-[#FFB703] mb-2">한국문화정보원 문화 빅데이터 플랫폼 유지보수 추가개발 사업</h3>
                             <div class="space-y-4">
@@ -156,31 +138,26 @@
                             </div>
                             <div class="mt-6 p-4 bg-gray-100 rounded-lg border-l-4 border-[#FFB703]">
                                 <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 데이터 핸들링 전체 프로세스 경험 및 자동화 이해</h4>
-                                <p class="text-sm text-gray-600">다양한 빅데이터를 다루는 과정에서 DB 쿼리뿐만 아니라 Excel을 활용한 수작업 데이터 가공 작업도 경험했습니다. 이를 통해 데이터가 생성되어 플랫폼에 배포되는 전체 프로세스를 깊이 이해하게 되었으며, Airflow를 이용한 자동 업로드 과정을 직접 보며 데이터 핸들링 업무 역량을 한 단계 더 성장시키는 계기가 되었습니다.</p>
+                                <p class="text-sm text-gray-600">DB 쿼리뿐만 아니라 Excel을 활용한 수작업 데이터 가공 작업도 경험했습니다. 이를 통해 데이터가 생성되어 플랫폼에 배포되는 전체 프로세스를 깊이 이해하게 되었으며, Airflow를 이용한 자동 업로드 과정을 직접 보며 데이터 핸들링 업무 역량을 한 단계 더 성장시키는 계기가 되었습니다.</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Project 4 -->
-                    <div class="relative flex items-start">
-                        <!-- 타임라인 점 및 뱃지 컨테이너 -->
+                    <div class="relative flex items-start mb-12">
                         <div class="absolute -left-1 md:-left-1 top-6 flex flex-col items-center z-10">
-                            <!-- 타임라인 점 -->
                             <div class="w-4 h-4 bg-[#F472B6] rounded-full border-4 border-gray-100 mb-2"></div>
-                            <!-- 프로젝트 태그 -->
                             <div class="absolute -top-2">
                                 <span class="text-white bg-[#F472B6] px-3 py-1 text-xs font-bold rounded-full shadow whitespace-nowrap">Project 4</span>
                             </div>
                         </div>
-                        <!-- 카드 내용 -->
                         <div class="flex-grow bg-white rounded-lg shadow-lg p-6 w-full ml-8 md:ml-12">
-                            <h3 class="text-2xl font-bold text-[#F472B6] mb-2">Only 프론트엔드 개발 참여 및 경력 방향성 재정립</h3>
+                            <h3 class="text-2xl font-bold text-[#F472B6] mb-2">금융권 CRM 프론트엔드 개발 참여</h3>
                             <div class="space-y-4">
                                 <div>
                                     <h4 class="font-semibold text-lg text-[#2D3748] mb-1">주요 역할 및 성과</h4>
                                     <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
-                                        <li>프론트엔드만 단독 개발하는 프로젝트를 맡아 Vue.js와 바닐라 자바스크립트를 주도적으로 학습하며 프로젝트 요구사항을 성공적으로 해결했습니다.</li>
-                                        <li>위/아래 이동 및 클릭만으로 데이터의 정렬과 관리를 가능하게 하는 **재사용 가능한 컴포넌트**를 직접 구현하여 개발 생산성 향상에 기여했습니다.</li>
+                                        <li>Vue.js를 활용하여 요구 화면 구현 및 RestfulAPI 와 연동</li>
+                                        <li>위/아래 이동 및 클릭만으로 데이터의 정렬과 관리를 가능하게 하는 <strong>재사용 가능한 컴포넌트</strong>를 직접 구현</li>
                                     </ul>
                                 </div>
                                 <div>
@@ -190,12 +167,54 @@
                                         <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">JavaScript</span>
                                         <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">HTML5</span>
                                         <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">CSS3</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">GitLab</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="mt-6 p-4 bg-gray-100 rounded-lg border-l-4 border-[#F472B6]">
-                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 위기 상황에서의 적응력과 전문성 재확인</h4>
-                                <p class="text-sm text-gray-600">예상치 못한 프론트엔드 프로젝트에 투입되었지만, 이를 성장의 기회로 삼아 Vue.js와 바닐라 자바스크립트의 핵심 원리를 깊이 있게 학습했습니다. 특히, 위/아래 버튼과 클릭만으로 데이터 정렬 및 관리를 할 수 있는 **라이브러리 형태의 재사용 가능한 컴포넌트**를 직접 설계하고 구현하여 기술적 문제 해결 능력을 입증했습니다. 이 경험을 통해 낯선 기술 스택에 빠르게 적응하는 저의 능력을 확인했으며, 백엔드 개발자로서의 커리어 목표를 더욱 확고히 다지는 계기가 되었습니다.</p>
+                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: 제한된 상황에서의 적응력과 전문성 재확인</h4>
+                                <p class="text-sm text-gray-600">Vue.js 개발을 처음 접해보며 프론트/백 구분된 프로젝트를 경험했습니다. CSR의 장점을 알 수 있었고 금융권 보안상 인터넷의 도움을 받기가 쉽지않아 Vue.js를 심도있게 활용하지 못했고 부족한 부분은 익숙한 바닐라 자바스크립트를 활용하여 문제를 해결하였습니다. 해당 경험을 통해 모던 웹스택에 관심이 생겼고 퇴사를 결심하게 되었습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start">
+                        <div class="absolute -left-1 md:-left-1 top-6 flex flex-col items-center z-10">
+                            <div class="w-4 h-4 bg-[#4F46E5] rounded-full border-4 border-gray-100 mb-2"></div>
+                            <div class="absolute -top-2">
+                                <span class="text-white bg-[#4F46E5] px-3 py-1 text-xs font-bold rounded-full shadow whitespace-nowrap">Project 5</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow bg-white rounded-lg shadow-lg p-6 w-full ml-8 md:ml-12">
+                            <h3 class="text-2xl font-bold text-[#4F46E5] mb-2">업무/인사관리 플랫폼 '사무보조(SAMUBOZO)' 신규 개발 (플레이데이터 최종 프로젝트)</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">주요 역할</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                                        <li>MSA 환경에서 Spring Cloud Gateway를 활용한 API 라우팅 및 인증/인가 구현</li>
+                                        <li>쪽지/알림 서비스 개발: SSE(Server-Sent Events)를 이용한 실시간 알림 기능 구현</li>
+                                        <li>일정 관리 서비스 개발: 전사, 팀, 개인 일정을 공유하는 캘린더 기능 구현</li>
+                                        <li>Jenkins, Docker, Kubernetes(EKS)를 활용한 CI/CD 파이프라인 구축 및 자동 배포 환경 설계</li>
+                                        <li>AWS(ECR, EKS, S3, Route53)를 이용한 클라우드 인프라 구축 및 운영</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg text-[#2D3748] mb-1">기술 스택</h4>
+                                    <div class="flex flex-wrap gap-2 text-sm">
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Java/Spring Boot</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Spring Cloud Gateway</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">JPA</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">React.js</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">AWS EKS</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Kubernetes</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Docker</span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1">Jenkins</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 p-4 bg-gray-100 rounded-lg border-l-4 border-[#4F46E5]">
+                                <h4 class="font-bold text-md text-[#2D3748] mb-2">📌 핵심 성과: MSA 기반 시스템 설계 및 DevOps 역량 확보</h4>
+                                <p class="text-sm text-gray-600">커리큘럼에서 배운 스택을 체득하기 위해 MSA(Microservice Architecture) 기반의 시스템을 설계하고 개발했습니다. 각 도메인별 서비스를 독립적으로 구축하고 API Gateway를 통해 통신하는 과정을 주도하며 서비스 분리에 대한 이해를 높였습니다. 특히 Jenkins와 Kubernetes를 사용하여 개발부터 테스트, 배포까지 이어지는 CI/CD 파이프라인을 직접 구축하며, 현대적인 DevOps 개발 문화에 대한 실질적인 경험과 역량을 확보했습니다.</p>
                             </div>
                         </div>
                     </div>
